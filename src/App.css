@@ -1,38 +1,176 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(33, 36, 43);
+  background-image: url(./default_bg.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
 .App {
-  text-align: center;
+  color: rgb(233, 234, 237);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  width: 100%;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(33, 36, 43);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header-content {
+  max-width: 1000px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.header-title {
+  margin-left: 1rem;
+}
+
+.hero {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  position: relative;
+  min-height: 500px;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  background-position: top center;
+}
+
+.hero-container {
+  max-width: 1000px;
+  height: auto;
+  margin-top: auto;
+  margin-bottom: 0;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: end;
+}
+
+.video {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.button {
+  margin: 0 0 .5rem 1rem;
+  background-color: rgb(33, 36, 43);
+  color: rgb(233, 234, 237);
+  outline: none;
+  border: 1px solid rgb(233, 234, 237);
+  padding: 10px 15px;
+  width: 8rem;
+  cursor: pointer;
+}
+
+.close-button {
+  margin: 0 0 0 1rem;
+  background-color: rgb(33, 36, 43);
+  color: rgb(233, 234, 237);
+  outline: none;
+  border: 1px solid rgb(233, 234, 237);
+  padding: 10px 15px;
+  width: 8rem;
+  cursor: pointer;
+  position: absolute;
+  z-index: 10;
+  bottom: 30px;
+  left: 30px;
+}
+
+.hero-title {
+  background-color: rgba(117, 117, 118, 0.4);
+  color: rgb(230, 230, 232);
+  margin: 0 0 0 1rem;
+  padding: .5rem;
+  width: 48%;
+}
+.hero-overview {
+  background-color: rgba(117, 117, 118, 0.4);
+  color: rgb(230, 230, 232);
+  margin: 0 0 1rem 1rem;
+  padding: .5rem;
+  width: 48%;
+}
+
+.container {
+  margin: 1rem auto 5rem auto;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.image-container {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 245px;
+  width: 163.33px;
+  overflow: hidden;
+  object-fit: cover;
+  object-position: center;
 }
 
-.App-link {
-  color: #61dafb;
+.image {
+  height: 100%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.movie-title {
+  margin-top: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-movies {
+  position: absolute;
+  bottom: 5rem;
+  padding: 0;
+  margin: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.footer {
+  position: fixed;
+  display: flex;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(168, 168, 168, 0.2);
+  backdrop-filter: blur(10px);
+  height: 5rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar {
+  width: 300px;
+  height: 40px;
+  font-size: 1.5rem;
+  margin-top: auto;
+  margin-bottom: auto;
+  border: none;
+  border-radius: 15px;
+  text-align: center;
+  background-color: rgba(233, 234, 237, 0.695);
+}
+
+.search-bar:focus {
+  outline: none;
+}
+
+.search-bar:focus::placeholder {
+  color: transparent;
 }
