@@ -22,7 +22,6 @@ function App() {
   const [playTrailer, setPlayTrailer] = useState(false)
   const [isCursorActive, setIsCursorActive] = useState(false)
   const [initialBackdropPath, setInitialBackdropPath] = useState('')
-  const [trailerAvailable, setTrailerAvailable] = useState(true)
 
 
   // Fetching a list of movies
@@ -167,10 +166,10 @@ const fetchMovies = async () => {
       <div className='hero' style={{backgroundImage: selectBackdrop()}} onMouseMove={handleMouseMove}>
         <div className='hero-container'>
 
-          {isCursorActive && playTrailer && trailerAvailable ? (<button className='close-button' onClick={() => setPlayTrailer(false)}>Close</button>) : null}
+          {isCursorActive && playTrailer ? (<button className='close-button' onClick={() => setPlayTrailer(false)}>Close</button>) : null}
           {selectedMovie.videos && playTrailer ? renderTrailer() : null}
 
-          {trailerAvailable ? (<button className='button' onClick={() => setPlayTrailer(true)}>Play Trailer</button>) : null}
+          <button className='button' onClick={() => setPlayTrailer(true)}>Play Trailer</button>
           <h1 className='hero-title'>{selectedMovie.title}</h1>
           <p className='hero-overview'>{selectedMovie.overview ? selectedMovie.overview : null}</p>
         </div>
