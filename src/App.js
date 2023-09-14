@@ -14,15 +14,13 @@ function App() {
   const imageUrl = 'https://image.tmdb.org/t/p'
   const api_key = process.env.REACT_APP_MOVIE_API_KEY
 
-  const randomStarter = Math.round(Math.random() * 20)
-
   const [movies, setMovies] = useState([])
   const [query, setQuery] = useState('')
   const [selectedMovie, setSelectedMovie] = useState({})
   const [playTrailer, setPlayTrailer] = useState(false)
   const [isCursorActive, setIsCursorActive] = useState(false)
-  const [initialBackdropPath, setInitialBackdropPath] = useState('')
   const [noTrailer, setNoTrailer] = useState(false)
+  const [hasRandomBackdropSet, setHasRandomBackdropSet] = useState(false)
 
 
   // Fetching a list of movies
@@ -38,7 +36,7 @@ const fetchMovies = async () => {
 
     if (data && data.results && Array.isArray(data.results) && data.results.length > 0) {
       setMovies(data.results);
-      await setSelectedMovie(data.results[0])
+      setSelectedMovie(data.results[0])
     }
   } catch (error) {
     console.error('Error fetching movies:', error);
@@ -79,16 +77,17 @@ const fetchMovies = async () => {
   
   useEffect(() => {
     fetchMovies()
-  }, [query])
+  }, [])
 
-
+  // Set the random backdrop during the initial load
   useEffect(() => {
-    if (selectedMovie && selectedMovie.backdrop_path) {
-      setInitialBackdropPath(
-        `${imageUrl}/original/${selectedMovie.backdrop_path}`
-      );
+    if (!hasRandomBackdropSet && movies.length > 0) {
+      const randomIndex = Math.round(Math.random() * (movies.length - 1))
+      setSelectedMovie(movies[randomIndex])
+      setHasRandomBackdropSet(true)
     }
-  }, [selectedMovie])
+  }, [movies, hasRandomBackdropSet])
+
 
   const renderMovies = () =>
     movies.map(movie => (
@@ -102,8 +101,7 @@ const fetchMovies = async () => {
   
   const selectBackdrop = () => {
     if (!selectedMovie || !selectedMovie.backdrop_path) {
-
-      return initialBackdropPath || null
+      return null
     }
     return `url(${imageUrl}/original/${selectedMovie.backdrop_path})`;
   }
@@ -151,12 +149,17 @@ const fetchMovies = async () => {
     }, 3000)
   }
 
+
   const debouncedFetchMovies = debounce(fetchMovies, 500)
 
   const handleInputChange = (e) => {
     const value = e.target.value
     setQuery(value)
     debouncedFetchMovies()
+
+    if (value === '') {
+      fetchMovies()
+    }
   }
 
   return (
@@ -169,9 +172,8 @@ const fetchMovies = async () => {
       <div className='hero' style={{backgroundImage: selectBackdrop()}} onMouseMove={handleMouseMove}>
         <div className='hero-container'>
 
-          {isCursorActive && playTrailer ? (<button className='close-button' onClick={() => setPlayTrailer(false)}>Close</button>) : null}
           {selectedMovie.videos && playTrailer ? renderTrailer() : null}
-
+          {isCursorActive && playTrailer ? (<button className='close-button' onClick={() => setPlayTrailer(false)}>Close</button>) : null}
           {!noTrailer ? <button className='button' onClick={() => setPlayTrailer(true)}>Play Trailer</button> : null}
           <h1 className='hero-title'>{selectedMovie.title}</h1>
           <p className='hero-overview'>{selectedMovie.overview ? selectedMovie.overview : null}</p>
