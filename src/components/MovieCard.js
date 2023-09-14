@@ -7,7 +7,7 @@ export default function MovieCard({ movie, imageUrl, selectMovie }) {
     <div className='card'>
         <div className='image-container' onClick={() => selectMovie(movie)}>
           {movie.poster_path ?
-          <img className='image' src={`${imageUrl}/w500${movie.poster_path}`} alt={movie.title}/>
+          <img className='image' src={`${imageUrl}/w500${movie.poster_path}`} alt='Movie image'/>
           : 
           <img className='image' src={noImage} alt='No image available'/>
           }

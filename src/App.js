@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
 import YouTube from 'react-youtube'
 import debounce from 'lodash.debounce'
@@ -24,7 +24,7 @@ function App() {
 
 
   // Fetching a list of movies
-const fetchMovies = async () => {
+const fetchMovies = useCallback(async () => {
   const type = query ? 'search' : 'discover';
   try {
     const { data } = await axios.get(`${base_url}/${type}/movie`, {
@@ -41,7 +41,7 @@ const fetchMovies = async () => {
   } catch (error) {
     console.error('Error fetching movies:', error);
   }
-}
+}, [query, api_key])
 
 
   // Fetching data for a video
@@ -77,7 +77,7 @@ const fetchMovies = async () => {
   
   useEffect(() => {
     fetchMovies()
-  }, [])
+  }, [query, fetchMovies])
 
   // Set the random backdrop during the initial load
   useEffect(() => {
