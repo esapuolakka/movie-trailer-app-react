@@ -22,6 +22,7 @@ function App() {
   const [playTrailer, setPlayTrailer] = useState(false)
   const [isCursorActive, setIsCursorActive] = useState(false)
   const [initialBackdropPath, setInitialBackdropPath] = useState('')
+  const [noTrailer, setNoTrailer] = useState(false)
 
 
   // Fetching a list of movies
@@ -37,7 +38,7 @@ const fetchMovies = async () => {
 
     if (data && data.results && Array.isArray(data.results) && data.results.length > 0) {
       setMovies(data.results);
-      await setSelectedMovie(data.results[randomStarter])
+      await setSelectedMovie(data.results[0])
     }
   } catch (error) {
     console.error('Error fetching movies:', error);
@@ -70,6 +71,7 @@ const fetchMovies = async () => {
     const data = await fetchMovie(movie.id)
     if(data) {
       setSelectedMovie(data)
+      setPlayTrailer(false)
     } else {
       console.log('Failed to fetch movie data')
     }
@@ -101,13 +103,14 @@ const fetchMovies = async () => {
   const selectBackdrop = () => {
     if (!selectedMovie || !selectedMovie.backdrop_path) {
 
-      return initialBackdropPath || `url(${imageUrl}/default_background_image.jpg)`
+      return initialBackdropPath || null
     }
     return `url(${imageUrl}/original/${selectedMovie.backdrop_path})`;
   }
 
   const renderTrailer = () => {
     if (!selectedMovie || typeof selectedMovie.videos === 'undefined' || selectedMovie.videos.results.length === 0) {
+      setNoTrailer(true)
       return null
     }
     let trailer = selectedMovie.videos.results.find(video => video.name === 'Official Trailer');
@@ -133,7 +136,7 @@ const fetchMovies = async () => {
             }
           }}
         />
-      );
+      )
     } else {
       return <p>No trailer available</p>
     }
@@ -169,7 +172,7 @@ const fetchMovies = async () => {
           {isCursorActive && playTrailer ? (<button className='close-button' onClick={() => setPlayTrailer(false)}>Close</button>) : null}
           {selectedMovie.videos && playTrailer ? renderTrailer() : null}
 
-          <button className='button' onClick={() => setPlayTrailer(true)}>Play Trailer</button>
+          {!noTrailer ? <button className='button' onClick={() => setPlayTrailer(true)}>Play Trailer</button> : null}
           <h1 className='hero-title'>{selectedMovie.title}</h1>
           <p className='hero-overview'>{selectedMovie.overview ? selectedMovie.overview : null}</p>
         </div>
