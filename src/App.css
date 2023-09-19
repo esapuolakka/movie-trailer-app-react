@@ -70,6 +70,11 @@ body, html {
   padding: 10px 15px;
   width: 8rem;
   cursor: pointer;
+  scale: 1;
+  transition: scale 20ms ease-in;
+}
+.button:active {
+  scale: 0.95;
 }
 
 .close-button {
@@ -123,6 +128,15 @@ body, html {
 
 .image {
   height: 100%;
+  scale: 1;
+  transition: scale 50ms ease-in;
+}
+.image:hover {
+  scale: 0.97;
+  
+}
+.image:active {
+  scale: 0.95;
 }
 
 .movie-title {
